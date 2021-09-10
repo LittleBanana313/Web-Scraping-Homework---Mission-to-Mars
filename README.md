@@ -1,4 +1,4 @@
-![Alt text](images/mission_to_mars.png?raw=true "Title")
+![Alt text](Images/mission_to_mars.png?raw=true "Title")
 
 
 ***Step 1 - Scraping***
@@ -90,7 +90,7 @@ hemisphere_image_urls = [
 
 - Create a template HTML file called index.html that will take the mars data dictionary and display all of the data in the appropriate HTML elements. Use the following as a guide for what the final product should look like, but feel free to create your own design.
 
-![Alt text](images/final_app.png?raw=true "Title")
+![Alt text](Images/final_app.png?raw=true "Title")
 
 ***Hints***
 
