@@ -86,3 +86,15 @@ hemisphere_image_urls = [
 
 
 - Create a template HTML file called index.html that will take the mars data dictionary and display all of the data in the appropriate HTML elements. Use the following as a guide for what the final product should look like, but feel free to create your own design.
+
+
+***Hints***
+
+
+- Use Splinter to navigate the sites when needed and BeautifulSoup to help find and parse out the necessary data.
+
+
+- Use Pymongo for CRUD applications for your database. For this homework, you can simply overwrite the existing document each time the /scrape url is visited and new data is obtained.
+
+
+- Use Bootstrap to structure your HTML template.
