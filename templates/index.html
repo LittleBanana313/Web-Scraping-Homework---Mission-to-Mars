@@ -29,12 +29,12 @@
 
     <div class="col-md-6" style="padding: 5%;">
       <h2>Latest Mars News:</h2>
-      <h3>{{ mission-to-mars.news_title }}</h3>
-      <p>{{ mission-to-mars.news_paragraph }}</p>
+      <h3>{{ mission_to_mars.news_title }}</h3>
+      <p>{{ mission_to_mars.news_paragraph }}</p>
     </div>
 
     <div class="col-md-6 text-center">
-      <img src="../inter/news.png" style="width: 300px; height: 300px;">
+      <img src="{{mission_to_mars.featured_image}}" style="width: 300px; height: 300px;">
     </div>
 
   </div>
@@ -44,35 +44,36 @@
 
 <!-- Mars Facts -->
 <div class="container-fluid">
-  <div class="row" style="background-color: #FF9E76;">
+  <div class="row" style="background-color: #ec971f;">
     <div class="col-md-6" style="padding-left: 3%;">
       <h2>Mars Facts</h2>
-      <p>{{ mission-to-mars.mars_facts|safe }}</p>
+      {{ mars_data['facts']|safe }}
     </div>
 
-    <div class="col-md-6 text-center">
-      <img src="../Images/mission-to-mars.png" style="width: 400px; height: 400px;">
-    </div>
-  </div>
-</div>
+{#    <div class="col-md-6 text-center">#}
+{#      <img src="../Images/mission-to-mars.png" style="width: 400px; height: 400px;">#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
 
 
 
 <!-- Mars Hemispheres -->
-<div class="container-fluid" style="background-color: #99857A;">
+<div class="container-fluid" style="background-color: #1b6d85;">
 <div class="row">
   <h1 class="text-center">Hemispheres of Mars</h1>
   <br>
-{% for dict in mission-to-mars.img_link_dict %}
-    <div class="col-md-6 text-center">
-      <div class="card text-center" style="width: 32rem;">
-        <img class="card-img-top text-center" id="scale_id" src="{{ dict.img_url }}">
-          <div class="card-body text-center">
-            <h4 class="card-title text-center">{{ dict.title }}</h4>
-          </div>
-        </div>
-    </div>
-{% endfor %}
+{{ mission_to_mars.img }}
+{#{% for dict in mission_to_mars.img_link_dict %}#}
+{#    <div class="col-md-6 text-center">#}
+{#      <div class="card text-center" style="width: 32rem;">#}
+{#        <img class="card-img-top text-center" id="scale_id" src="{{ dict.img_url }}">#}
+{#          <div class="card-body text-center">#}
+{#            <h4 class="card-title text-center">{{ dict.title }}</h4>#}
+{#          </div>#}
+{#        </div>#}
+{#    </div>#}
+{#{% endfor %}#}
 </div>
 </div>
 

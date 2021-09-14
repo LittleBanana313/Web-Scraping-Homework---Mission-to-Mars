@@ -3,7 +3,7 @@
 #################################################
 
 # Dependencies and Setup
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask_pymongo import PyMongo
 import mission_to_mars
 #################################################
@@ -24,7 +24,8 @@ mongo = PyMongo(app)
 @app.route("/")
 def index():
     mars = mongo.db.mars.find_one()
-    return render_template("index.html", mars=mars)
+    mars_data = ''
+    return render_template("index.html", mission_to_mars=mars, mars_data=mars_data)
 
 # Scrape Route to Import `scrape_mars.py` Script & Call `scrape` Function
 @app.route("/scrape")
@@ -32,8 +33,12 @@ def scrapper():
     mars = mongo.db.mars
     mars_data = mission_to_mars.scrape_all()
     mars.update({}, mars_data, upsert=True)
-    return redirect("/")
+    # print(mars_data['facts'])
+    mars = mongo.db.mars.find_one()
+    print(mars)
+    return render_template('index.html', mission_to_mars=mars, mars_data=mars_data)
 
 # Define Main Behavior
+
 if __name__ == "__main__":
     app.run(debug=True)

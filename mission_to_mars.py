@@ -1,36 +1,37 @@
 # Import statements and setup
-from bs4 import BeautifulSoup
-from splinter import Browser
-import pandas as pd
 import time
 
-def Mars():
+import pandas as pd
+from bs4 import BeautifulSoup
+from splinter import Browser
+
+
+def scrape_all():
     # Chrome driver config
-    executable_path = {"executable_path": "/Users/connn/Downloads/chromedriver"}
-    browser = Browser("chrome", **executable_path, headless=False)
+    executable_path = {'executable_path': '/Users/connn/Downloads/chromedriver'}
+    browser = Browser('chrome', **executable_path, headless=True)
 
     # visit NASA site
-    url = "https://mars.nasa.gov/news/"
+    url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
 
-    # Parse HTML resuslts with bsoup
+    # Parse HTML results with bsoup
     html = browser.html
-    news_soup = BeautifulSoup(html, "html.parser")
-    slide_element = news_soup.select_one("ul.item_list li.slide")
-
-    # inspect
-    slide_element.find("div", class_="content_title")
+    news_soup = BeautifulSoup(html, 'html.parser')
+    slide_element = news_soup.select_one('ul.item_list')
 
     # find newest news title
-    news_title = slide_element.find("div", class_="content_title").get_text()
+    # news_title = ''
+    time.sleep(2)
+    news_title = slide_element.find('div', class_='content_title').get_text()
 
     # Find the newest paragraph text
-    news_paragraph = slide_element.find("div", class_="article_teaser_body").get_text()
-    step_1 = {"Newest title": news_title, "Newest paragraph": news_paragraph}
+    # news_paragraph = ''
+    news_paragraph = slide_element.find('div', class_='article_teaser_body').get_text()
+    # step_1 = {'Newest title': news_title, 'Newest paragraph': news_paragraph}
 
     # Visit the NASA JPL (Jet Propulsion Laboratory) Site
-    browser = Browser("chrome", **executable_path)
-    url = "https://spaceimages-mars.com/"
+    url = 'https://spaceimages-mars.com/'
     browser.visit(url)
 
     # Parse the resulting html with soup
@@ -40,21 +41,20 @@ def Mars():
     button = img_soup.find_all('button')[1].find_parent()['href']
     button_2 = f'{url}{button}'
 
-    browser = Browser("chrome", **executable_path, headless=False)
-    url = "https://galaxyfacts-mars.com/"
+    url = 'https://galaxyfacts-mars.com/'
     browser.visit(url)
 
     # open Mars Facts site
-    mars_facts = pd.read_html("https://galaxyfacts-mars.com/")[0]
+    mars_facts = pd.read_html('https://galaxyfacts-mars.com/')[0]
 
     # render index, set dataframe cols, display
-    mars_facts.reset_index(inplace=True)
-    mars_facts.columns = ["ID", "Properties", "Mars", "Earth"]
-    mars_facts.to_html(classes="table table-striped")
+    mars_facts.reset_index(inplace=False)
+    mars_facts.columns = ['ID', 'Properties', 'Mars', 'Earth']
+    mars_facts = mars_facts.to_html(classes='table table-striped')
+    print(mars_facts)
 
     # visit Mars Hemisphere info site
-    browser = Browser("chrome", **executable_path, headless=False)
-    url = "https://marshemispheres.com/"
+    url = 'https://marshemispheres.com/'
     browser.visit(url)
 
 
@@ -63,12 +63,12 @@ def Mars():
     html = browser.html
     img_soup2 = BeautifulSoup(html, 'html.parser')
     # img_soup2
-    links = browser.links.find_by_partial_text("Hemisphere Enhanced")
+    links = browser.links.find_by_partial_text('Hemisphere Enhanced')
     for index, link in enumerate(links):
         if index > 0:
             browser.back()
             time.sleep(2)
-            links = browser.links.find_by_partial_text("Hemisphere Enhanced")
+            links = browser.links.find_by_partial_text('Hemisphere Enhanced')
         link = links[index]
         title = link.text
         link.click()
@@ -79,9 +79,9 @@ def Mars():
         downloads = inner_soup.find_all('div', class_ = 'downloads')
 
         for download in downloads:
-            lis = download.find_all("li")
+            lis = download.find_all('li')
             for li in lis:
-                if "Original" in li.text:
+                if 'Original' in li.text:
                     partial_link = li.find('a')['href']
                     img_link_dict[title] = f'{url}{partial_link}'
 
@@ -90,15 +90,15 @@ def Mars():
 
 
     data = {
-        "news_title": news_title,
-        "news_paragraph": news_paragraph,
-        "featured_image": button_2,
-        "facts": mars_facts,
-        "hemispheres": img_link_dict,
+        'news_title': news_title,
+        'news_paragraph': news_paragraph,
+        'featured_image': button_2,
+        'facts': mars_facts,
+        'hemispheres': img_link_dict,
     }
     browser.quit()
     return data
 
-if __name__ == "__main__":
-    all_data = Mars()
-    print(f'{all_data}')
+if __name__ == '__main__':
+    all_data = scrape_all()
+    # print(f'{all_data}')
