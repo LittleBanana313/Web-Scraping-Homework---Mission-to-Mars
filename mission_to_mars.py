@@ -9,7 +9,7 @@ from splinter import Browser
 def scrape_all():
     # Chrome driver config
     executable_path = {'executable_path': '/Users/connn/Downloads/chromedriver'}
-    browser = Browser('chrome', **executable_path, headless=True)
+    browser = Browser('chrome', **executable_path, headless=False)
 
     # visit NASA site
     url = 'https://mars.nasa.gov/news/'
@@ -20,15 +20,20 @@ def scrape_all():
     news_soup = BeautifulSoup(html, 'html.parser')
     slide_element = news_soup.select_one('ul.item_list')
 
+    try:
     # find newest news title
-    # news_title = ''
-    time.sleep(2)
-    news_title = slide_element.find('div', class_='content_title').get_text()
+        time.sleep(2)
+        news_title = slide_element.find('div', class_='content_title').get_text()
+    except:
+        news_title = 'error here'
 
     # Find the newest paragraph text
     # news_paragraph = ''
-    news_paragraph = slide_element.find('div', class_='article_teaser_body').get_text()
-    # step_1 = {'Newest title': news_title, 'Newest paragraph': news_paragraph}
+    try:
+        time.sleep(2)
+        news_paragraph = slide_element.find('div', class_='article_teaser_body').get_text()
+    except:
+        news_paragraph = 'error here'
 
     # Visit the NASA JPL (Jet Propulsion Laboratory) Site
     url = 'https://spaceimages-mars.com/'
@@ -45,20 +50,24 @@ def scrape_all():
     browser.visit(url)
 
     # open Mars Facts site
-    mars_facts = pd.read_html('https://galaxyfacts-mars.com/')[0]
+    try:
+        mars_facts = pd.read_html('https://galaxyfacts-mars.com/')[0]
 
-    # render index, set dataframe cols, display
-    mars_facts.reset_index(inplace=False)
-    mars_facts.columns = ['ID', 'Properties', 'Mars', 'Earth']
-    mars_facts = mars_facts.to_html(classes='table table-striped')
+        # render index, set dataframe cols, display
+        mars_facts.reset_index(inplace=False)
+        # mars_facts.columns = ['ID', 'Properties', 'Mars', 'Earth']
+        mars_facts = mars_facts.to_html(classes='table table-striped')
+
+    except:
+        mars_facts = ''
+
     print(mars_facts)
 
     # visit Mars Hemisphere info site
     url = 'https://marshemispheres.com/'
     browser.visit(url)
 
-
-    img_link_dict = {}
+    img_link_list = []
     # Parse the resulting html with soup
     html = browser.html
     img_soup2 = BeautifulSoup(html, 'html.parser')
@@ -76,28 +85,30 @@ def scrape_all():
         inner_html = browser.html
         inner_soup = BeautifulSoup(inner_html, 'html.parser')
 
-        downloads = inner_soup.find_all('div', class_ = 'downloads')
+        downloads = inner_soup.find_all('div', class_='downloads')
 
         for download in downloads:
             lis = download.find_all('li')
             for li in lis:
                 if 'Original' in li.text:
                     partial_link = li.find('a')['href']
-                    img_link_dict[title] = f'{url}{partial_link}'
+
+                    img_link_list += f'{url}{partial_link}'
 
     # to stop automated browser to remain active and shutdown
     browser.quit()
-
 
     data = {
         'news_title': news_title,
         'news_paragraph': news_paragraph,
         'featured_image': button_2,
         'facts': mars_facts,
-        'hemispheres': img_link_dict,
+        'hemispheres': img_link_list,
     }
+
     browser.quit()
     return data
+
 
 if __name__ == '__main__':
     all_data = scrape_all()

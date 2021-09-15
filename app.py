@@ -25,6 +25,7 @@ mongo = PyMongo(app)
 def index():
     mars = mongo.db.mars.find_one()
     mars_data = ''
+    print(mars)
     return render_template("index.html", mission_to_mars=mars, mars_data=mars_data)
 
 # Scrape Route to Import `scrape_mars.py` Script & Call `scrape` Function
@@ -33,11 +34,11 @@ def scrapper():
     mars = mongo.db.mars
     mars_data = mission_to_mars.scrape_all()
     mars.update({}, mars_data, upsert=True)
-    # print(mars_data['facts'])
+    print(mars_data['facts'])
     mars = mongo.db.mars.find_one()
     print(mars)
-    return render_template('index.html', mission_to_mars=mars, mars_data=mars_data)
-
+    # return render_template('index.html', mission_to_mars=mars, mars_data=mars_data)
+    return 'scraping successful'
 # Define Main Behavior
 
 if __name__ == "__main__":

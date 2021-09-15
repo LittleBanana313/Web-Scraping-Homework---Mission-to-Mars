@@ -47,11 +47,11 @@
   <div class="row" style="background-color: #ec971f;">
     <div class="col-md-6" style="padding-left: 3%;">
       <h2>Mars Facts</h2>
-      {{ mars_data['facts']|safe }}
+      {{ mission_to_mars.facts|safe }}
     </div>
 
 {#    <div class="col-md-6 text-center">#}
-{#      <img src="../Images/mission-to-mars.png" style="width: 400px; height: 400px;">#}
+{#      <img src="../Images/news.png" style="width: 400px; height: 400px;">#}
 {#    </div>#}
 {#  </div>#}
 {#</div>#}
@@ -63,17 +63,19 @@
 <div class="row">
   <h1 class="text-center">Hemispheres of Mars</h1>
   <br>
-{{ mission_to_mars.img }}
-{#{% for dict in mission_to_mars.img_link_dict %}#}
-{#    <div class="col-md-6 text-center">#}
-{#      <div class="card text-center" style="width: 32rem;">#}
-{#        <img class="card-img-top text-center" id="scale_id" src="{{ dict.img_url }}">#}
-{#          <div class="card-body text-center">#}
-{#            <h4 class="card-title text-center">{{ dict.title }}</h4>#}
-{#          </div>#}
-{#        </div>#}
-{#    </div>#}
-{#{% endfor %}#}
+{#{{ mission_to_mars.img }}#}
+{% for item in mission_to_mars.hemispheres %}
+    {% for dict in mission_to_mars %}
+    <div class="col-md-6 text-center">
+      <div class="card text-center" style="width: 32rem;">
+        <img class="card-img-top text-center" id="scale_id" src="{{ item }}">
+          <div class="card-body text-center">
+            <h4 class="card-title text-center">{{ dict.title }}</h4>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endfor %}
 </div>
 </div>
 
