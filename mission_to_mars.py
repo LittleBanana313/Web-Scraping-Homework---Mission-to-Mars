@@ -61,7 +61,7 @@ def scrape_all():
     except:
         mars_facts = ''
 
-    print(mars_facts)
+    # print(mars_facts)
 
     # visit Mars Hemisphere info site
     url = 'https://marshemispheres.com/'
@@ -90,10 +90,16 @@ def scrape_all():
         for download in downloads:
             lis = download.find_all('li')
             for li in lis:
-                if 'Original' in li.text:
-                    partial_link = li.find('a')['href']
+                print(" li.text=",  li.text)
+                if 'Sample' in li.text:
+                    link_dict = {}
+                    link_dict["title"] = title
 
-                    img_link_list += f'{url}{partial_link}'
+                    partial_link = li.find('a')['href']
+                    print("-------------------------------partial_link=", partial_link)
+                    link_dict["img_url"] = f'{url}{partial_link}'
+                    img_link_list.append(link_dict)
+                    
 
     # to stop automated browser to remain active and shutdown
     browser.quit()

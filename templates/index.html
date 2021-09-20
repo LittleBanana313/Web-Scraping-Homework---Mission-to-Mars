@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mars Facts</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../inter/styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
 </head>
 
 <header class="masthead">
@@ -65,16 +65,14 @@
   <br>
 {#{{ mission_to_mars.img }}#}
 {% for item in mission_to_mars.hemispheres %}
-    {% for dict in mission_to_mars %}
     <div class="col-md-6 text-center">
       <div class="card text-center" style="width: 32rem;">
-        <img class="card-img-top text-center" id="scale_id" src="{{ item }}">
+        <img class="card-img-top text-center image-photos" src="{{ item.img_url }}">
           <div class="card-body text-center">
-            <h4 class="card-title text-center">{{ dict.title }}</h4>
+            <h4 class="card-title text-center">{{ item.title }}</h4>
           </div>
         </div>
     </div>
-    {% endfor %}
 {% endfor %}
 </div>
 </div>

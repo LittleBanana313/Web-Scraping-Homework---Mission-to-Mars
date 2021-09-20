@@ -1,6 +1,6 @@
 .masthead {
-    height: 100vh;
-    min-height: 500px;
+    height: 10 vh;
+    min-height: 50px;
     background-image: url('header_img.png');
     background-size: cover;
     background-position: center;
@@ -11,7 +11,7 @@
   padding: 25% 0;
 }
 
-#scale_id {
+.image-photos {
   width: 500px;
   height: 500px;
   object-fit: fill;
